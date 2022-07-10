@@ -2,7 +2,15 @@ FROM node:15
 
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y wget
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+COPY --chown=node:node . .
+
+RUN apt-get update && apt-get install -y wget && npm install pm2 -g && pm2 update
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
@@ -11,4 +19,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 
 EXPOSE 3000
 
-CMD ["node","index.js"]
+# RUN pm2 start /usr/src/app/index.js --name Index
+
+CMD ["node","/usr/src/app/index.js"]

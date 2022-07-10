@@ -21,10 +21,11 @@ services:
     build: 
       context: node
     container_name: app
+    restart: always
     networks:
       - nodenet
-    volumes:
-      - ./node:/usr/src/app
+    # volumes:
+    #   - ./node:/usr/src/app
     tty: true
     ports:
       - "3000:3000"
@@ -37,8 +38,8 @@ services:
     command: [--innodb-use-native-aio=0]
     restart: always
     tty: true
-    volumes:
-      - ./mysql:/home/mysql
+    # volumes:
+    #   - ./mysql:/home/mysql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
